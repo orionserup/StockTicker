@@ -1,6 +1,6 @@
 # Boot.py Initialization Script for the project
 
-from network import *
+from network import WLAN, STA_IF
 from machine import UART
 from robin_stocks import robinhood
 
@@ -23,18 +23,17 @@ class ESP8266:
         
         self.WIFISSID = SSID
         self.WIFIPASS = PASS
-        self.WLAN = network.WLAN(network.STA_IF)
+        self.WLAN = WLAN(STA_IF)
         self.WLAN.active(True)
         self.WLAN.scan()
         self.WLAN.connect(SSID, PASS)
 
         while not self.WLAN.isconnected():
-            self.WLAN.connect(input("WI-FI SSID"), input("WI-FI Password")
+            self.WLAN.connect(input("WI-FI SSID: "), input("WI-FI Password: ")
         
     # Intializes The UART and gets it ready to send
     def InitSerial(self, PORT=1, SPEED=9600):
-
-        self.UART = machine.UART(PORT, baudrate=SPEED)
+        self.UART = UART(PORT, baudrate=SPEED)
 
     # Sends a string over UART
     def SendSerial(self, string):
